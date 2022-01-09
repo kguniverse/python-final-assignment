@@ -1,6 +1,5 @@
 from sanic import Sanic
 from sanic.response import json
-import geopandas as gpd
 from shapely.geometry import shape, Point
 import numpy as np
 import pandas as pd
@@ -26,14 +25,14 @@ class Dao:
                     grid_line = grid_part
                 else:
                     grid_line = np.concatenate((grid_line, grid_part), axis=1)
-            if grid is None:
-                grid = grid_line
+            if self.grid is None:
+                self.grid = grid_line
             else :
-                grid = np.concatenate((grid, grid_line), axis=0) 
+                self.grid = np.concatenate((self.grid, grid_line), axis=0) 
         pass
 
     def validate_grid(self, gjson):
-        polygon = shape(gjson['features'][0]['geometry'])
+        polygon = shape(gjson['geometry'])
         (latmin, lonmin, latmax, lonmax) =((x // self.cell_size * self.cell_size) for x in polygon.bounds)
         prep_polygon = prep(polygon)
         points = []
@@ -53,6 +52,10 @@ class Dao:
 dao = Dao()
 
 @app.post("/data")
-def dataHandler(request):
+async def dataHandler(request):
     geo = request.json
     return json({'sum': dao.validate_grid(geo)})
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=1337)
