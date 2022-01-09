@@ -57,7 +57,7 @@ valid_points.extend(filter(prep_polygon.contains, points))
 
 最后北京市的人口测试出来的数据为28109088，与2018年统计的2100万人接近。
 
-![截屏2022-01-09 下午2.04.12](/Users/kgkg/Projects/2021-python-final-assignment/README.assets/截屏2022-01-09 下午2.04.12.png)
+![截屏2022-01-09 下午2.04.12](README.assets/截屏2022-01-09 下午2.04.12.png)
 
 ## 服务端
 
